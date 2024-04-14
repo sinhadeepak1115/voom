@@ -75,6 +75,14 @@
   }
 }
 
+.cl-providerIcon__github {
+  filter: invert(1);
+}
+
+.cl-logoBox {
+  height: 40px;
+}
+
 @layer base {
   * {
     @apply border-border;
