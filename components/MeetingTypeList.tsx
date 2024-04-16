@@ -2,6 +2,9 @@
 import React from "react";
 import { useState } from "react";
 import HomeCard from "./HomeCard";
+import MeetingModal from "./MeetingModal";
+
+const createMeeting = () => {};
 
 const MeetingTypeList = () => {
   const [meetingState, setMeetingState] = useState<
@@ -35,7 +38,15 @@ const MeetingTypeList = () => {
         title="View Recordings"
         description="Meeting Recordings"
         className="bg-yellow-1"
-        handelClick={() => router.push("/recordings")}
+        handelClick={() => setMeetingState("isJoiningMeeting")}
+      />
+      <MeetingModal
+        isOpen={meetingState === "isInstantMeeting"}
+        onClose={() => setMeetingState(undefined)}
+        title="Start an instant meeting"
+        className="text-center"
+        buttonText="Start Meeting"
+        handelClick={createMeeting}
       />
     </section>
   );
