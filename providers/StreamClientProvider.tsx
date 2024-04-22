@@ -3,17 +3,26 @@ import { useState, useEffect } from "react";
 import { ReactNode } from "react";
 import { useUser } from "@clerk/nextjs";
 import Loader from "@/components/Loader";
+import { tokenProvider } from "@/actions/stream.actions";
 
-const apiKey = process.env.NEXT_PUBLIC_STREAM_API_KEY;
+const API_KEY = process.env.NEXT_PUBLIC_STREAM_API_KEY;
 
 export const StreamVideoProvider = ({ children }: { children: ReactNode }) => {
   const [videoClient, setVideoClient] = useState<StreamVideoClient>();
   const { user, isLoaded } = useUser();
   useEffect(() => {
     if (!isLoaded || !user) return;
-    if (!apiKey) {
-      throw new Error("No Stream API key provided");
-    }
+    if (!API_KEY) throw new Error("No Stream API key provided");
+    const client = new StreamVideoClient({
+      apiKey: API_KEY,
+      user: {
+        id: user?.id,
+        name: user?.username || user?.id,
+        image: user?.imageUrl,
+      },
+      tokenProvider,
+    });
+    setVideoClient(client);
   }, [user, isLoaded]);
   if (!videoClient) return <Loader />;
 
