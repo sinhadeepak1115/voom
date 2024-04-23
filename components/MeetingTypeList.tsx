@@ -6,7 +6,7 @@ import HomeCard from "./HomeCard";
 import MeetingModal from "./MeetingModal";
 import { useRouter } from "next/navigation";
 import { useUser } from "@clerk/nextjs";
-import { useStreamVideoClient } from "@stream-io/video-react-sdk";
+import { Call, useStreamVideoClient } from "@stream-io/video-react-sdk";
 
 const initialValues = {
   dateTime: new Date(),
@@ -35,6 +35,20 @@ const MeetingTypeList = () => {
 
       const startsAt =
         values.dateTime.toISOString() || new Date(Date.now()).toISOString();
+      const description = values.description || "Instant Meeting";
+
+      await call.getOrCreate({
+        data: {
+          starts_at: startsAt,
+          custom: { description },
+        },
+      });
+
+      setCallDetails(call);
+
+      if (!values.description) {
+        router.push(`/meeting/${call.id}`);
+      }
     } catch (error) {
       console.log(error);
     }

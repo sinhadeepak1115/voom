@@ -1,3 +1,4 @@
+"use client";
 import { StreamVideo, StreamVideoClient } from "@stream-io/video-react-sdk";
 import { useState, useEffect } from "react";
 import { ReactNode } from "react";
