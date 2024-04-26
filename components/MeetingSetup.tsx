@@ -10,7 +10,7 @@ import { useState, useEffect } from "react";
 const MeetingSetup = ({
   setIsSetupComplete,
 }: {
-  setIsSetupComplete: () => void;
+  setIsSetupComplete: (value: boolean) => void;
 }) => {
   const [isMicCamToggledOn, setIsMicCamToggledOn] = useState(false);
   const call = useCall();
@@ -45,6 +45,7 @@ const MeetingSetup = ({
         className="rounded-md bg-green-500 px-4 py-2.5"
         onClick={() => {
           call.join();
+          setIsSetupComplete(true);
         }}
       >
         Join Metting
