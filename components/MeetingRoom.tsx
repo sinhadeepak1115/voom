@@ -5,7 +5,9 @@ import {
   PaginatedGridLayout,
   CallParticipantsList,
   CallControls,
+  CallingState,
   CallStatsButton,
+  useCallStateHooks,
 } from "@stream-io/video-react-sdk";
 import React from "react";
 import { useState } from "react";
@@ -16,10 +18,11 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from "./ui/dropdown-menu";
 import { Users, LayoutList } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import EndCallButton from "@/components/EndCallButton";
+import Loader from "./Loader";
 
 type CallLayoutType = "grid" | "speaker-left" | "speaker-right";
 
@@ -29,6 +32,11 @@ const MeetingRoom = () => {
   const [layout, setLayout] = useState<CallLayoutType>("speaker-left");
   const router = useRouter();
   const [showParticipants, setShowParticipants] = useState(false);
+  const { useCallCallingState } = useCallStateHooks();
+
+  const callingState = useCallCallingState();
+
+  if (callingState !== CallingState.JOINED) return <Loader />;
   const CallLayout = () => {
     switch (layout) {
       case "grid":
