@@ -99,7 +99,7 @@ const MeetingTypeList = () => {
         title="View Recordings"
         description="Meeting Recordings"
         className="bg-yellow-1"
-        handelClick={() => setMeetingState("isJoiningMeeting")}
+        handelClick={() => router.push("/recordings")}
       />
       {!callDetail ? (
         <MeetingModal
